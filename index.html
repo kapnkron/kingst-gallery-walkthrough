@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>King St. Gallery Virtual Walkthrough</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; }
+    #pano { width: 100%; height: 100%; }
+    .hotspot {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid #ccc;
+      padding: 8px;
+      border-radius: 6px;
+      font-family: sans-serif;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="pano"></div>
+  <script src="https://www.marzipano.net/demos/vendor/marzipano.js"></script>
+  <script>
+    var viewer = new Marzipano.Viewer(document.getElementById('pano'));
+    var source = Marzipano.ImageUrlSource.fromString("fake_gallery_pano.jpg");
+    var geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
+    var limiter = Marzipano.RectilinearView.limit.traditional(1024, 100*Math.PI/180);
+    var view = new Marzipano.RectilinearView(null, limiter);
+    var scene = viewer.createScene({ source, geometry, view, pinFirstLevel: true });
+    scene.switchTo();
+
+    var hotspots = [
+      { yaw: -1.5, pitch: 0.1, text: "In the City — Miguel Freitas" },
+      { yaw: -0.5, pitch: 0.1, text: "Venice at Night — Miguel Freitas" },
+      { yaw: 0.5, pitch: 0.1, text: "The Lonely Balcony — Miguel Freitas" },
+      { yaw: 1.5, pitch: 0.1, text: "Moonlight Flowers — Jordan Hicks" },
+      { yaw: 2.2, pitch: 0.1, text: "Another Great Day — Jordan Hicks" },
+      { yaw: 3.0, pitch: 0.1, text: "Endless Happiness — Jordan Hicks" }
+    ];
+
+    hotspots.forEach(function(hs) {
+      var element = document.createElement('div');
+      element.className = 'hotspot';
+      element.innerText = hs.text;
+      scene.hotspotContainer().createHotspot(element, { yaw: hs.yaw, pitch: hs.pitch });
+    });
+  </script>
+</body>
+</html>
