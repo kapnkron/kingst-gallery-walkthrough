@@ -25,7 +25,7 @@
     var source = Marzipano.ImageUrlSource.fromString("fake_gallery_pano.jpg");
     var geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
     var limiter = Marzipano.RectilinearView.limit.traditional(1024, 100*Math.PI/180);
-    var view = new Marzipano.RectilinearView(null, limiter);
+    var view = new Marzipano.RectilinearView({ yaw: 0, pitch: 0, fov: Math.PI/2 }, limiter);
     var scene = viewer.createScene({ source, geometry, view, pinFirstLevel: true });
     scene.switchTo();
 
